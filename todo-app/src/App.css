@@ -8,3 +8,7 @@ body{
  
 
 }
+
+input::placeholder {
+  color: #9ca3af; /* Tailwind'in placeholder-gray-400 rengine uygun */
+}
