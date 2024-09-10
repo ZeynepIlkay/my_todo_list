@@ -2,6 +2,11 @@
 
 This is a simple Todo List application built with React and Tailwind CSS. The application allows users to manage their tasks efficiently with the ability to add, edit, and delete todos.
 
+![image](https://github.com/user-attachments/assets/e05bd8a0-edd3-4fc1-97e6-9e5e4aef6eb6)
+![image](https://github.com/user-attachments/assets/2067e9b2-cf2a-41bd-9799-ce82573eab38)
+
+
+
 ## Features
 
 - **Add Todos**: Users can add new tasks to their todo list.
