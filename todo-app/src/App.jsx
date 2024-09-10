@@ -27,12 +27,12 @@ function App() {
   const addTodo = async () => {
     try {
       if (input.trim() === '') {
-        showMessage('Boş ekleme yapılamaz!', 'error');
+        showMessage('Please enter something to do first!', 'error');
         return;
       }
       setTodos([...todos, { id: new Date(), todo: input, completed: false }]);
       setInput('');
-      showMessage('Görev başarıyla eklendi!', 'success');
+      showMessage('Succesfully added!', 'success');
     }catch (error){
       console.error(error.message);
     }
@@ -41,7 +41,7 @@ function App() {
   const updateTodo = async () => {
     try {
       if (input.trim() === '') {
-        showMessage('Boş düzenleme yapılamaz!', 'error');
+        showMessage('Edit field cannot be left blank!', 'error');
         return;
       }
       const updatedTodos = [...todos];
@@ -49,7 +49,7 @@ function App() {
       setTodos(updatedTodos);
       setEditIndex(-1);
       setInput('');
-      showMessage('Görev başarıyla güncellendi!', 'success');
+      showMessage('Updated successfully!', 'success');
     } catch (error) {
       console.error(error.message);
     }
@@ -67,7 +67,7 @@ function App() {
         setInput('');
       }
 
-      showMessage('Görev başarıyla silindi!', 'success');
+      showMessage('Successfully deleted!', 'success');
     } catch (error) {
       console.error(error.message);
     }
@@ -79,7 +79,7 @@ function App() {
     updatedTodos[index].completed = !updatedTodos[index].completed;
     setTodos(updatedTodos);
     if (updatedTodos[index].completed) {
-      showMessage(`"${updatedTodos[index].todo}" tamamlandı!`, 'success');
+      showMessage(`"${updatedTodos[index].todo}" is complete!`, 'success');
     } else {
       setMessage('');
     }
