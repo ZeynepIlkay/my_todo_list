@@ -4,11 +4,20 @@ import './App.css'
 import { FaPlus, FaPencilAlt, FaTrash } from 'react-icons/fa'; 
 
 function App() {
-  const [todos, setTodos] = useState([
-    //{id: 1, todo: 'Learn React'}
-  ]);
+  const [todos, setTodos] = useState([]);
   const [input, setInput] = useState('');
   const [editIndex, setEditIndex] = useState(-1);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState(''); // 'success' veya 'error'
+
+  const showMessage = (text, type) => {
+    setMessage(text);
+    setMessageType(type);
+    setTimeout(() => {
+      setMessage('');
+      setMessageType('');
+    }, 2000); // 2 saniye boyunca göster
+  };
 
   const setEdit = (index) => {
     setInput(todos[index].todo);
@@ -17,41 +26,64 @@ function App() {
 
   const addTodo = async () => {
     try {
-      if(input.trim() !== ''){
-        setTodos([...todos, {id:new Date(), todo:input}]);
-        setInput('')
+      if (input.trim() === '') {
+        showMessage('Boş ekleme yapılamaz!', 'error');
+        return;
       }
+      setTodos([...todos, { id: new Date(), todo: input, completed: false }]);
+      setInput('');
+      showMessage('Görev başarıyla eklendi!', 'success');
     }catch (error){
       console.error(error.message);
     }
   }
 
   const updateTodo = async () => {
-    try{
-      if (input.trim() != '') {
-        const updatedTodos = [...todos];
-        updatedTodos[editIndex].todo = input;
-        setTodos(updatedTodos);
-        setEditIndex(-1);
-        setInput('')
+    try {
+      if (input.trim() === '') {
+        showMessage('Boş düzenleme yapılamaz!', 'error');
+        return;
       }
-
-    } catch(error) {
-      console.error(error.message);
-
-    }
-  }
-
-  const removeTodo = async (id) => {
-    let filteredTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(filteredTodos);
-
-    // Eğer silinen todo şu an düzenlenmekte olan todo ise, editIndex ve input'u sıfırla
-    if (editIndex !== -1 && todos[editIndex]?.id === id) {
+      const updatedTodos = [...todos];
+      updatedTodos[editIndex].todo = input;
+      setTodos(updatedTodos);
       setEditIndex(-1);
       setInput('');
+      showMessage('Görev başarıyla güncellendi!', 'success');
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  
+
+  const removeTodo = async (id) => {
+    try {
+      let filteredTodos = todos.filter((todo) => todo.id !== id);
+      setTodos(filteredTodos);
+
+      if (editIndex !== -1 && todos[editIndex]?.id === id) {
+        setEditIndex(-1);
+        setInput('');
+      }
+
+      showMessage('Görev başarıyla silindi!', 'success');
+    } catch (error) {
+      console.error(error.message);
     }
   }
+
+
+  const toggleComplete = (index) => {
+    const updatedTodos = [...todos];
+    updatedTodos[index].completed = !updatedTodos[index].completed;
+    setTodos(updatedTodos);
+    if (updatedTodos[index].completed) {
+      showMessage(`"${updatedTodos[index].todo}" tamamlandı!`, 'success');
+    } else {
+      setMessage('');
+    }
+  };
 
   return (
     <div className='min-h-screen flex flex-col items-center justify-center gap-4 p-4 bg-custom-background bg-center bg-cover'>
@@ -82,15 +114,36 @@ function App() {
           
           <ul>
             {todos.map((todo, index) => (
-              <li key = {index} className='flex items-center justify-between bg-white p-3  rounded shadow-md mb-3'>
-              <span className='text-lg'>{todo.todo}</span>
+              <li
+              key={index}
+              className={`flex items-center justify-between bg-white p-3 rounded shadow-md mb-3 ${
+                todo.completed ? 'line-through' : ''
+              }`}
+            >
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={() => toggleComplete(index)}
+                  className="mr-2"
+                />
+                <span className="text-lg">{todo.todo}</span>
+              </div>
               <div>
-              <button onClick={() => setEdit(index)} className="mr-2 p-2 bg-gradient-to-r from-[rgba(244,114,182,0.1)] to-[rgba(219,39,119,0.1)] text-white rounded-full hover: from-pink-100 hover:to-red-700">
-                <FaPencilAlt/>
-              </button>
-              <button onClick={() => removeTodo(todo.id)} className="mr-2 p-2 bg-gradient-to-r from-[rgba(244,114,182,0.1)] to-[rgba(219,39,119,0.1)] text-white rounded-full hover: from-pink-100 hover:to-red-700">
-                <FaTrash/>
-              </button>
+                {!todo.completed && (
+                  <button
+                    onClick={() => setEdit(index)}
+                    className="mr-2 p-2 bg-gradient-to-r from-[rgba(244,114,182,0.1)] to-[rgba(219,39,119,0.1)] text-white rounded-full hover:from-pink-100 hover:to-red-700"
+                  >
+                    <FaPencilAlt />
+                  </button>
+                )}
+                <button
+                  onClick={() => removeTodo(todo.id)}
+                  className="mr-2 p-2 bg-gradient-to-r from-[rgba(244,114,182,0.1)] to-[rgba(219,39,119,0.1)] text-white rounded-full hover:from-pink-100 hover:to-red-700"
+                >
+                  <FaTrash />
+                </button>
               </div>
             </li>
             ))}
@@ -99,6 +152,15 @@ function App() {
         </div>
         )
       }
+      {message && (
+        <div
+          className={`p-4 rounded shadow-md w-full max-w-lg lg:w-1/4 text-center ${
+            messageType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+          }`}
+        >
+          {message}
+        </div>
+      )}
     </div>
   )
 }
