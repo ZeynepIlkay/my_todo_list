@@ -16,7 +16,7 @@ function App() {
     setTimeout(() => {
       setMessage('');
       setMessageType('');
-    }, 2000); // 2 saniye boyunca göster
+    }, 1000); // 2 saniye boyunca göster
   };
 
   const setEdit = (index) => {
@@ -158,10 +158,12 @@ function App() {
             className={`p-4 rounded shadow-md w-full max-w-lg lg:w-1/4 text-center break-words ${
               messageType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
             }`}
+            style={{ width: '100%' }}
           >
             {message}
           </div>
         )}
+
 
         </div>
         
