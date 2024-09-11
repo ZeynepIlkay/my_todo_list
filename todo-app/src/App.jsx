@@ -111,7 +111,7 @@ function App() {
       </div>
       
       {
-        todos.length > 0 && (
+        todos.length > -1 && (
           <div className='bg-gray-100 p-6 rounded shadow-m w-full max-w-lg lg:w-1/4' >
           
         <ul>
