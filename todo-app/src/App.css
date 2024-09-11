@@ -9,6 +9,36 @@ body{
 
 }
 
-input::placeholder {
-  color: #9ca3af; /* Tailwind'in placeholder-gray-400 rengine uygun */
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: white;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.todo-text {
+    flex-grow: 1;
+    margin-right: 1rem; /* space between text and buttons */
+    word-break: break-word; /* ensures text goes to the next line */
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    width: 100px; /* fixed width for buttons */
+}
+
+button {
+    margin-left: 0.5rem; /* space between buttons */
+}
+
+.line-through {
+  text-decoration: line-through;
+  color: grey; /* optional for completed todos */
 }
