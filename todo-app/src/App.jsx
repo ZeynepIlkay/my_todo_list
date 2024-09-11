@@ -168,15 +168,8 @@ function App() {
         )
       }
       
-      {message && (
-  <div
-    className={`p-4 rounded shadow-md w-full max-w-lg lg:w-1/4 text-center break-words ${
-      messageType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-    }`}
-  >
-    {message}
-        </div>
-      )}
+
+
     </div>
   )
 }
